@@ -1,0 +1,10 @@
+.example-chip-list {
+    width: 100%;
+}
+
+input,
+textarea,
+select {
+  /* 入力欄にフォーカスが当たっても拡大しない */
+  font-size: 17px;
+}

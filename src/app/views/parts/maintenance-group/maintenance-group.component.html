@@ -1,0 +1,10 @@
+<mat-card class="card" (click)="navigateRegistResultSummary()">
+	<mat-card-header>
+		<!-- メンテナンスが一つでも未着手のモノがあればタイトルを赤文字にする -->
+		<mat-card-title [ngStyle]="{'color': isDone?'':'red'}">
+			<!-- タイトルの日付をyyyy/MM/ddフォーマットにして分かりやすくするため -->
+			{{ this.title.substring(0,19) | date: "yyyy/MM/dd" }}: 
+			{{ this.title.substring(21,this.title.length)}}
+		</mat-card-title>
+	</mat-card-header>
+</mat-card>

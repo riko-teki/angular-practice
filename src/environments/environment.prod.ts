@@ -1,0 +1,21 @@
+export const environment = {
+  production: true,
+  Title: 'FacilityManager',
+
+  authAPI: `http://10.10.0.28:10090/api/v1/userauth`,
+  userAPI: `http://10.10.0.28:10090/api/v1/users`,
+  genericMasterAPI: `http://10.10.0.28:10090/api/v1/genericmaster`,
+  locationAPI: `http://10.10.0.28:10090/api/v1/location`,
+  facilityAPI: `http://10.10.0.28:10090/api/v1/facility`,
+  materialStockAPI: `http://10.10.0.28:10090/api/v1/materialstock`,
+  maintenancePlansResultsAPI: `http://10.10.0.28:10090/api/v1/maintenance-plans-results`,
+  usedMaterialAPI: `http://10.10.0.28:10090/api/v1/used-material`,
+  usedMaterialSummaryAPI: `http://10.10.0.28:10090/api/v1/used-material-summary`,
+  registResultAPI: `http://10.10.0.28:10090/api/v1/regist-result`,
+  registResultSummaryAPI: `http://10.10.0.28:10090/api/v1/regist-result-summary`,
+  bulkRegistResultAPI: `http://10.10.0.28:10090/api/v1/bulk-regist-result`,
+  fileAPI: `http://10.10.0.28:11000/api/v1/files`,
+  fileSummaryAPI: `http://10.10.0.28:11000/api/v1/files-summary`,
+  manualNamesAPI: `http://10.10.0.28:11000/api/v1/manual-names`,
+  manualAPI: `http://10.10.0.28:11000/api/v1/manual`,
+};

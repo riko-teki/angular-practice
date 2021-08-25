@@ -1,0 +1,21 @@
+<h1 class="grid-col">設備名: {{ maintenances[0].FacilityName }}  予定日: {{ maintenances[0].Date | date:'yyyy/MM/dd' }}</h1>
+<mat-accordion class="grid example-headers-align">
+  <mat-expansion-panel
+    class="grid-col"
+    *ngFor="let maintenance of this.maintenances"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ maintenance.Title }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ maintenance.WorkStatus | genericMaster: "010" | async }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-regist-result
+      [maintenance]="maintenance"
+      (maintenanceOnChanged)="onUpdate()"
+    >
+    </app-regist-result>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,277 @@
+<article class="grid">
+  <section class="grid-col">
+    <div class="title">
+      <h1>{{ this.maintenance.Title }}</h1>
+      <button
+        mat-raised-button
+        color="primary"
+        class="btn-fixed"
+        (click)="onUpdate()"
+        [disabled]="
+          this.maintenanceResult.CompleteFlag === '1' && !this.isManager
+        "
+      >
+        更新
+      </button>
+    </div>
+    <h4>{{ this.maintenance.PlanGroupID }} : {{ this.maintenance.PlanID }}</h4>
+    <div class="scroll">
+      <mat-card class="section">
+        <mat-card-title>作業状況</mat-card-title>
+        <mat-card-content>
+          <mat-form-field appearance="fill">
+            <mat-label>作業状況</mat-label>
+            <mat-select [(ngModel)]="this.maintenanceResult.WorkStatus">
+              <mat-option
+                *ngFor="let workStatus of this.workStatuses"
+                [value]="workStatus.Code"
+              >
+                {{ workStatus.CodeName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-checkbox
+            [ngModel]="this.maintenanceResult.CompleteFlag === '1'"
+            (ngModelChange)="onCompleteFlagChanged($event)"
+            [disabled]="!this.isManager"
+            >完了</mat-checkbox
+          >
+        </mat-card-content>
+      </mat-card>
+      
+
+      <mat-card class="section">
+        <mat-card-title>作業手順書</mat-card-title>
+        <mat-card-subtitle *ngIf="manualNames.length === 0"
+          >手順書はありません。</mat-card-subtitle
+        >
+        <mat-card-content>
+          <div *ngFor="let name of manualNames">
+            <button mat-flat-button (click)="onLinkClicked(name)">
+              {{ name }}
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="section">
+        <mat-card-title>作業結果概要</mat-card-title>
+        <mat-form-field appearance="fill">
+          <mat-label>作業結果の概要を入力</mat-label>
+          <textarea
+            [(ngModel)]="this.maintenanceResult.WorkResultOverview"
+            matInput
+            rows="5"
+            cols="100"
+          ></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>作業時間/停止時間</mat-label>
+          <input
+            #workTime
+            matInput
+            type="number"
+            [(ngModel)]="this.maintenanceResult.WorkTime"
+            (focus)="
+              workTime.value =
+                workTime.value === '0'
+                  ? (workTime.value = '')
+                  : this.maintenanceResult.WorkTime.toString()
+            "
+            (blur)="
+              workTime.value =
+                workTime.value === ''
+                  ? '0'
+                  : this.maintenanceResult.WorkTime.toString()
+            "
+            placeholder="(例)1.5　単位=時間"
+          />
+          <span matSuffix>時間</span>
+        </mat-form-field>
+      </mat-card>
+
+      <mat-card class="section" [class.section__image]="!isFetched">
+        <mat-card-title>写真</mat-card-title>
+        <label>
+          <mat-icon>add</mat-icon>
+          <input
+            #files
+            type="file"
+            class="hidden"
+            accept="image/*"
+            multiple="true"
+            (change)="onChangeInput($event)"
+          />
+        </label>
+        <div class="image" *ngFor="let image of putImages">
+          <button mat-icon-button (click)="onFileDelete(image, files)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <img [src]="image.URL" [name]="image.FileName" alt="" width="200px" height="200px" />
+        </div>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="this.putImages.length === 0"
+            (click)="onUpload()"
+          >
+            画像を更新
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="section">
+        <mat-card-title>確認項目</mat-card-title>
+        <mat-card-content>
+          <ng-container>
+            <h3>
+              点検日時 :
+              {{
+                this.maintenanceResult.InspectionDatetime
+                  | date: "yyyy/MM/dd HH:mm:ss"
+              }}
+            </h3>
+            <mat-form-field
+              appearance="fill"
+              *ngIf="this.maintenance.PlanInspectionResultCategory === '0001'"
+            >
+              <mat-label
+                >数値を入力
+                {{
+                  this.maintenance.DecisionConditionMIN
+                    | afterDecimalPointLength
+                      : this.maintenance.DecisionConditionMinDecimalLength
+                }}
+                ~
+                {{
+                  this.maintenance.DecisionConditionMAX
+                    | afterDecimalPointLength
+                      : this.maintenance.DecisionConditionMaxDecimalLength
+                }}</mat-label
+              >
+              <input
+                #resultNum
+                matInput
+                type="number"
+                [(ngModel)]="this.maintenanceResult.InspectionResultNum"
+                [min]="this.maintenance.DecisionConditionMIN"
+                [max]="this.maintenance.DecisionConditionMAX"
+                (focus)="
+                  resultNum.value =
+                    resultNum.value === '0'
+                      ? (resultNum.value = '')
+                      : this.maintenanceResult.InspectionResultNum.toString()
+                "
+                (blur)="
+                  resultNum.value =
+                    resultNum.value === ''
+                      ? '0'
+                      : this.maintenanceResult.InspectionResultNum.toString()
+                "
+              />
+            </mat-form-field>
+            <mat-form-field
+              appearance="fill"
+              *ngIf="this.maintenance.PlanInspectionResultCategory != '0001'"
+            >
+              <mat-label
+                >OK NGを入力
+                {{
+                  this.maintenance.InspectionMethod
+                    | genericMaster: "005"
+                    | async
+                }}
+                :
+                {{
+                  this.maintenance.DecisionCondition
+                    | genericMaster: "016"
+                    | async
+                }}
+              </mat-label>
+              <mat-select
+                [(ngModel)]="this.maintenanceResult.InspectionResultOKNG"
+              >
+                <mat-option
+                  *ngFor="let resultOKNGCondition of this.resultOKNGConditions"
+                  [value]="resultOKNGCondition.Code"
+                >
+                  {{ resultOKNGCondition.CodeName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+
+          <mat-form-field appearance="fill">
+            <mat-label>コメント</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="this.maintenanceResult.Comment"
+            />
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="section">
+        <mat-card-title>使用部材</mat-card-title>
+        <mat-chip-list #chipList>
+          <mat-chip
+            *ngFor="let useMaterial of useMaterials"
+            [removable]="true"
+            [matTooltip]="useMaterial.LotNo"
+            matTooltipPosition="above"
+          >
+            {{ useMaterial.MaterialName }} × {{ useMaterial.UsedQTY }}
+            <mat-icon matChipRemove (click)="onRemoveMaterial(useMaterial)"
+              >cancel
+            </mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <div class="flex">
+          <mat-form-field class="flex-left" appearance="fill">
+            <mat-label>部材コード</mat-label>
+            <mat-select [(ngModel)]="this.selectedMaterial">
+              <mat-option
+                *ngFor="let material of allMaterials"
+                [value]="material"
+              >
+                {{ material.MaterialName }}
+                LotNo: {{ material.LotNo }} 在庫数: {{ material.StockQTY }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="flex-right" appearance="fill">
+            <mat-label>使用数</mat-label>
+            <input
+              #usedQty
+              matInput
+              [(ngModel)]="this.usedQTY"
+              type="number"
+              [max]="this.selectedMaterial.StockQTY"
+              (focus)="
+                usedQty.value =
+                  usedQty.value === '0'
+                    ? (usedQty.value = '')
+                    : this.usedQTY.toString()
+              "
+              (blur)="
+                usedQty.value =
+                  usedQty.value === '' ? '0' : this.usedQTY.toString()
+              "
+              oninput="this.value=Math.abs(this.value)"
+            />
+          </mat-form-field>
+        </div>
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="onAddMaterial()"
+          [disabled]="!(this.selectedMaterial.MaterialCode && this.usedQTY > 0)"
+        >
+          追加
+        </button>
+      </mat-card>
+    </div>
+  </section>
+</article>

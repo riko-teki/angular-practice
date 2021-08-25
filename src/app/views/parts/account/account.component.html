@@ -1,0 +1,19 @@
+<h1>サインインアカウント</h1>
+<article class="container">
+  <div class="container__title">
+    <p>ユーザーID:</p>
+    <p>ユーザー名:</p>
+    <p>工場:</p>
+    <p>部署:</p>
+    <p>管理者区分:</p>
+    <p>メールアドレス:</p>
+  </div>
+  <div class="container__content">
+	<p>{{ this.data.account.ID }}</p>
+	<p>{{ this.data.account.Name }}</p>
+	<p>{{ this.data.account.Factory }}</p>
+	<p>{{ this.data.account.Department | genericMaster: "003" | async }}</p>
+	<p>{{ this.data.account.ManageClass | genericMaster: "014" | async }}</p>
+	<p>{{ this.data.account.MailAddress }}</p>
+  </div>
+</article>

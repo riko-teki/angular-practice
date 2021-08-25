@@ -1,0 +1,36 @@
+<div class="article">
+  <div class="title-row">
+    <h1 class="title-row__title">メンテナンス計画グループ一覧</h1>
+    <mat-expansion-panel class="title-row__search">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="search__title">
+          メンテナンス計画表示条件
+        </mat-panel-title>
+        <mat-panel-description class="search__description">
+          条件を変更できます
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <app-search-conditions
+        [(searchConditions)]="this.searchConditions"
+        (searchConditionsChange)="filter()"
+      >
+      </app-search-conditions>
+    </mat-expansion-panel>
+  </div>
+
+  <h2 *ngIf="(this.filteredMaintenanceGroup | json) === ({} | json) && progressBarMode === 'determinate'">
+    表示するメンテナンス計画がありません。
+  </h2>
+  <mat-progress-bar [mode]="progressBarMode"></mat-progress-bar>
+
+  <article class="grid-list">
+    <app-maintenance-group
+      *ngFor="let group of this.filteredMaintenanceGroup | keyvalue"
+      [title]="group.key"
+      [maintenanceGroup]="group.value"
+      (onClickBulkPlanStop)="bulkPlanStop($event)"
+      (onClickBulkComplete)="bulkComplete($event)"
+    >
+    </app-maintenance-group>
+  </article>
+</div>

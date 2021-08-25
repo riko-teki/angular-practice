@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button *ngIf="isMenuVisibled" (click)="drawer.toggle()">
+    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+  </button>
+  <span>設備管理ポータル</span>
+  <span class="spacer"></span>
+  <button mat-icon-button *ngIf="isMenuVisibled" (click)="showAccount()">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav">
+    <mat-toolbar class="sidenav__menu">Menu</mat-toolbar>
+    <mat-nav-list class="sidenav__list">
+      <a
+        mat-list-item
+        routerLink="/maintenances-group/{{ this.signInFactory }}"
+        (click)="drawer.toggle()"
+        >メンテナンス計画グループ一覧</a
+      >
+      <a mat-list-item (click)="drawer.toggle(); onLogoutClicked()"
+        >ログアウト</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

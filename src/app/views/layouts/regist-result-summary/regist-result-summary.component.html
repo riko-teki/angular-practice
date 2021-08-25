@@ -1,0 +1,196 @@
+<article class="grid" *ngIf="maintenances.length != 0">
+  <section class="grid-col">
+    <div class="title">
+      <h1 *ngIf="maintenances[0]">
+        {{ maintenances[0].FacilityName }}
+      </h1>
+      <button
+        mat-raised-button
+        color="primary"
+        class="btn-fixed"
+        (click)="onUpdate()"
+        [disabled]="
+        this.maintenances[0].CompleteFlag === '1' && !this.isManager
+      "
+      >
+        更新
+      </button>
+    </div>
+    <div class="scroll">
+      <app-confirm-item
+        *ngFor="let maintenance of maintenances"
+        [maintenancePlanResult]="maintenance"
+        [resultOKNGConditions]="resultOKNGConditions"
+      ></app-confirm-item>
+      <mat-card class="section">
+        <mat-card-title>作業状況</mat-card-title>
+        <mat-card-content>
+          <mat-form-field appearance="fill">
+            <mat-label>作業状況</mat-label>
+            <mat-select [(ngModel)]="this.maintenances[0].WorkStatus"
+              (ngModelChange)="onWorkStatusChanged()">
+              <mat-option
+                *ngFor="let workStatus of this.workStatuses"
+                [value]="workStatus.Code"
+              >
+                {{ workStatus.CodeName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p>作業者: {{this.maintenances[0].InspectionUserName}}</p>
+          <mat-checkbox
+          [ngModel]="this.maintenances[0].CompleteFlag === '1'"
+          (ngModelChange)="onCompleteFlagChanged($event)"
+          [disabled]="!this.isManager"
+          >完了</mat-checkbox
+        >
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="section">
+        <mat-card-title>作業手順書</mat-card-title>
+        <mat-card-subtitle *ngIf="manualNames.length === 0"
+          >手順書はありません。</mat-card-subtitle
+        >
+        <mat-card-subtitle></mat-card-subtitle>
+        <mat-card-content>
+          <div *ngFor="let name of manualNames">
+            <button mat-flat-button (click)="onLinkClicked(name)">
+              {{ name }}
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="section">
+        <mat-card-title>作業結果概要</mat-card-title>
+        <mat-form-field appearance="fill">
+          <mat-label>作業結果の概要を入力</mat-label>
+          <textarea
+            matInput
+            rows="5"
+            cols="100"
+            [(ngModel)]="this.maintenances[0].WorkResultOverview"
+            (ngModelChange)="onWorkResultOverviewChanged()"
+          ></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>作業時間/停止時間</mat-label>
+          <input
+            #workTime
+            matInput
+            [(ngModel)]="this.maintenances[0].WorkTime"
+            (ngModelChange)="onWorkTimeChanged()"
+            type="number"
+            (focus)="
+              workTime.value =
+                workTime.value === '0'
+                  ? (workTime.value = '')
+                  : this.maintenances[0].WorkTime.toString()
+            "
+            (blur)="
+              workTime.value =
+                workTime.value === ''
+                  ? '0'
+                  : this.maintenances[0].WorkTime.toString()
+            "
+            placeholder="(例)1.5　単位=時間"
+          />
+          <span matSuffix>時間</span>
+        </mat-form-field>
+      </mat-card>
+
+      <mat-card class="section" [class.section__image]="!isFetched">
+        <mat-card-title>写真</mat-card-title>
+        <label>
+          <mat-icon>add</mat-icon>
+          <input
+            #files
+            type="file"
+            class="hidden"
+            accept="image/*"
+            multiple="true"
+            (change)="onChangeInput($event)"
+          />
+        </label>
+        <div class="image" *ngFor="let image of putImages">
+          <button mat-icon-button (click)="onFileDelete(image, files)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <img [src]="image.URL" alt="" width="200px" height="200px" />
+        </div>
+        <mat-card-actions>
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="this.putImages.length === 0"
+            (click)="onUpload()"
+          >
+            画像を更新
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="section">
+        <mat-card-title>使用部材</mat-card-title>
+        <mat-chip-list #chipList>
+          <mat-chip
+            *ngFor="let useMaterial of useMaterials"
+            [removable]="true"
+            [matTooltip]="useMaterial.LotNo"
+            matTooltipPosition="above"
+          >
+            {{ useMaterial.MaterialName }} × {{ useMaterial.UsedQTY }}
+            <mat-icon matChipRemove (click)="onRemoveMaterial(useMaterial)"
+              >cancel
+            </mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+        <div class="flex">
+          <mat-form-field class="flex-left" appearance="fill">
+            <mat-label>部材コード</mat-label>
+            <mat-select [(ngModel)]="this.selectedMaterial">
+              <mat-option
+                *ngFor="let material of allMaterials"
+                [value]="material"
+              >
+                {{ material.MaterialName }}
+                LotNo: {{ material.LotNo }} 在庫数: {{ material.StockQTY }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="flex-right" appearance="fill">
+            <mat-label>使用数</mat-label>
+            <input
+              #usedQty
+              matInput
+              [(ngModel)]="this.usedQTY"
+              type="number"
+              [max]="this.selectedMaterial.StockQTY"
+              (focus)="
+                usedQty.value =
+                  usedQty.value === '0'
+                    ? (usedQty.value = '')
+                    : this.usedQTY.toString()
+              "
+              (blur)="
+                usedQty.value =
+                  usedQty.value === '' ? '0' : this.usedQTY.toString()
+              "
+              oninput="this.value=Math.abs(this.value)"
+            />
+          </mat-form-field>
+        </div>
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="onAddMaterial()"
+          [disabled]="!(this.selectedMaterial.MaterialCode && this.usedQTY > 0)"
+        >
+          追加
+        </button>
+      </mat-card>
+      
+    </div>
+  </section>
+</article>

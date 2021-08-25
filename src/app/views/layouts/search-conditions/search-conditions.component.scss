@@ -1,0 +1,24 @@
+section{
+    width: 100%;
+}
+
+.toggle{
+    margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 600px) and (max-width: 1024px) {
+	// tablet用のcssを記述
+}
+
+@media screen and (min-width: 1025px) {
+    // pc用のCSSを記述
+
+}
+
+
+input:not(.startdate,.enddate),
+textarea,
+select {
+  /* 入力欄にフォーカスが当たっても拡大しない */
+  font-size: 17px;
+}

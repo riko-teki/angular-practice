@@ -1,0 +1,29 @@
+export class MaterialStock {
+	readonly Factory: string = ''
+	MaterialCode: string = ''
+	MaterialName: string = ''
+	readonly LotNo: string = ''
+	readonly LocationCode: string = ''
+	readonly FacilityCode: string = ''
+	StockQTY: number = 0
+	PreviousQTY: number = 0
+	RecentlyStockQTYChangeDate: number = 0
+	UpdateReasonCategory: string = ''
+	UpdateReasonDetail: string =''
+	UpdateDisplay: string = ''
+	readonly String1: string = ''
+	readonly String2: string = ''
+	readonly String3: string = ''
+	readonly String4: string = ''
+	readonly String5: string = ''
+	readonly Numeric1: number = 0
+	readonly Numeric2: number = 0
+	readonly Numeric3: number = 0
+	readonly Numeric4: number = 0
+	readonly Numeric5: number = 0
+	readonly InsertUserID: string = ''
+	readonly InsertDate:string = ''
+	readonly UpdateUserID: string = ''
+	readonly UpdateDate: string = ''
+	readonly UpdateCounter: number = 0
+}

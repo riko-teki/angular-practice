@@ -1,0 +1,39 @@
+@media screen and (max-width:639px) {
+    /*スマホ用のcssを記述*/
+    .mat-sidenav-container{
+        height: calc(100vh - 56px);
+    }
+
+}
+ 
+@media only screen and (min-width:600px) and (max-width:1023px) {
+    /*tablet用のcssを記述*/
+    .mat-sidenav-container{
+        height: calc(100vh - 56px);
+        width: 100%;
+    }
+}
+ 
+@media screen and (min-width:1024px) {
+    /*pc用のcssを記述*/
+    .mat-sidenav-container{
+        height: calc(100vh - 64px);
+    }
+}
+
+.sidenav {
+    height: 100%;
+    &__menu {
+        height: 52px;
+    }
+    &__list {
+        height:calc(100vh - 130px);
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+    }
+} //課題50 ログアウトボタンを画面下端に表示する
+
+.spacer {
+    flex: 1 1 auto;
+  }

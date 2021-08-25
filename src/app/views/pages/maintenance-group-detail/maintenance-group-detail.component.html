@@ -1,0 +1,13 @@
+<mat-accordion class="grid example-headers-align">
+	<mat-expansion-panel class="grid-col" *ngFor="let maintenance of this.maintenances">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				{{ maintenance.Title }}
+			</mat-panel-title>
+			<mat-panel-description>
+				{{ maintenance.WorkStatus | genericMaster:"010" | async}}
+			</mat-panel-description>
+		</mat-expansion-panel-header>
+		<app-maintenance-detail [maintenance]="maintenance"></app-maintenance-detail>
+	</mat-expansion-panel>
+</mat-accordion>

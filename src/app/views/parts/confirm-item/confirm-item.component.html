@@ -1,0 +1,114 @@
+<mat-card class="section" *ngIf="maintenancePlanResult">
+  <mat-card-title>{{ this.maintenancePlanResult.Title }}</mat-card-title>
+  <mat-card-content>
+    <h3
+      *ngIf="
+        this.maintenancePlanResult.WorkStatus
+          ? this.maintenancePlanResult.WorkStatus === '0001'
+            ? false
+            : true
+          : true
+      "
+    >
+      点検日時 :{{ this.maintenancePlanResult.InspectionDatetime }}
+    </h3>
+    <h3>
+      作業状況 :{{
+        this.maintenancePlanResult.WorkStatus | genericMaster: "010" | async
+      }}
+    </h3>
+    <ng-container class="flex-flow-column">
+      <mat-label>
+        {{
+          this.maintenancePlanResult.DecisionCondition
+            | genericMaster: "016"
+            | async
+        }}</mat-label
+      >
+      <mat-form-field
+        appearance="fill"
+        *ngIf="
+          this.maintenancePlanResult.PlanInspectionResultCategory === '0001'
+        "
+      >
+        <mat-label
+          >数値を入力
+          {{
+            this.maintenancePlanResult.DecisionConditionMIN
+              | afterDecimalPointLength
+                : this.maintenancePlanResult.DecisionConditionMinDecimalLength
+          }}
+          ~
+          {{
+            this.maintenancePlanResult.DecisionConditionMAX
+              | afterDecimalPointLength
+                : this.maintenancePlanResult.DecisionConditionMaxDecimalLength
+          }}</mat-label
+        >
+        <input
+          #resultNum
+          matInput
+          type="number"
+          [(ngModel)]="this.maintenancePlanResult.InspectionResultNum"
+          [min]="this.maintenancePlanResult.DecisionConditionMIN"
+          [max]="this.maintenancePlanResult.DecisionConditionMAX"
+          (focus)="
+            resultNum.value =
+              resultNum.value === '0'
+                ? (resultNum.value = '')
+                : this.maintenancePlanResult.InspectionResultNum.toString()
+          "
+          (blur)="
+            resultNum.value =
+              resultNum.value === ''
+                ? '0'
+                : this.maintenancePlanResult.InspectionResultNum.toString()
+          "
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="fill"
+        *ngIf="
+          this.maintenancePlanResult.PlanInspectionResultCategory != '0001'
+        "
+      >
+        <mat-label
+          >OK NGを入力
+          {{
+            this.maintenancePlanResult.InspectionMethod
+              | genericMaster: "005"
+              | async
+          }}
+          :
+          {{
+            this.maintenancePlanResult.DecisionCondition
+              | genericMaster: "016"
+              | async
+          }}
+        </mat-label>
+        <mat-select
+          [(ngModel)]="this.maintenancePlanResult.InspectionResultOKNG"
+        >
+          <mat-option
+            *ngFor="let resultOKNGCondition of this.resultOKNGConditions"
+            [value]="resultOKNGCondition.Code"
+          >
+            {{ resultOKNGCondition.CodeName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>コメント</mat-label>
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="this.maintenancePlanResult.Comment"
+        />
+      </mat-form-field>
+
+      <mat-label>備考</mat-label>
+      <p>{{ this.maintenancePlanResult.Remarks }}</p>
+    </ng-container>
+  </mat-card-content>
+</mat-card>
+<mat-divider></mat-divider>

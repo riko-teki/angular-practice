@@ -1,0 +1,40 @@
+
+mat-card-content {
+    display:flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+button{
+    margin-top: 50px;
+}
+
+@media only screen and (min-width:600px) and (max-width:1024px) {
+	/*tablet用のcssを記述*/
+    .login-form {
+        width :300px;
+        height: 350px;
+        max-width: 400px;
+        max-height: 500px;
+        position: absolute;
+        top: 50%; /*親要素を起点に上から50%*/
+        left: 50%;  /*親要素を起点に左から50%*/
+        transform: translateY(-50%) translateX(-50%); /*要素の大きさの半分ずつを戻す*/
+        -webkit-transform: translateY(-50%) translateX(-50%);
+    }
+    }
+     
+@media screen and (min-width:1025px) {
+	/*pc用のcssを記述*/
+    .login-form {
+        width :300px;
+        height: 350px;
+        max-width: 400px;
+        max-height: 500px;
+        position: absolute;
+        top: 50%; /*親要素を起点に上から50%*/
+        left: 50%;  /*親要素を起点に左から50%*/
+        transform: translateY(-50%) translateX(-50%); /*要素の大きさの半分ずつを戻す*/
+        -webkit-transform: translateY(-50%) translateX(-50%);
+    }
+}

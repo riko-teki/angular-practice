@@ -1,0 +1,28 @@
+<mat-card class="login-form">
+    <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field>
+            <mat-label>Company</mat-label>
+            <mat-select [(value)]="this.user.Factory">
+                <mat-option *ngFor="let company of companies"
+                    [value]="company">
+                    {{company}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [(ngModel)]="this.user.ID" type="text" placeholder="User">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput [(ngModel)]="this.user.Password" type="password" placeholder="Password">
+        </mat-form-field>
+        <button 
+            mat-raised-button color="primary" 
+            (click)="onLoginClicked()" 
+            [disabled]="!user.ID || !user.Password">
+            Login
+        </button>
+    </mat-card-content>
+</mat-card>
