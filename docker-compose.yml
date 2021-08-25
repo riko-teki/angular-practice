@@ -1,0 +1,15 @@
+version: '3'
+
+services: 
+  node: 
+    build: .
+    container_name: angular-practice
+    tty: true
+    # command: npm run dev #
+    ports:
+      - 0.0.0.0:10000:80 #公開用
+      - 0.0.0.0:10876:9876 #テストコード実行用
+    volumes:
+      - .:/app
+    working_dir: "/app"
+    restart: always # 自動起動の有効化
