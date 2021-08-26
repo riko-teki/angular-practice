@@ -20,18 +20,7 @@ export class AppComponent {
   public get isMenuVisibled(): boolean {
     return this.authService.isAuthenticated();
   }
-
-  /**
-   * サインイン先の工場
-   *
-   * @readonly
-   * @type {string}
-   * @memberof AppComponent
-   */
-  public get signInFactory(): string {
-    return this.authService.signInFactory;
-  }
-
+  
   /**
    * Creates an instance of AppComponent.
    * @param {AuthService} authService
@@ -40,9 +29,7 @@ export class AppComponent {
   constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   showAccount(): void {
-    this.dialog.open(AccountComponent, {
-      data: { account: this.authService.loginedUser },
-    });
+    this.dialog.open(AccountComponent);
   }
 
   /**

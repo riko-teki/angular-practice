@@ -1,29 +1,24 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { share, shareReplay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ILocation } from '../interfaces/location';
-import { AuthService } from './auth.service';
 import { HttpClientService } from './http-client.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
-  constructor(
-    private httpClientService: HttpClientService,
-    private authService: AuthService
-  ) {}
+  constructor(private httpClientService: HttpClientService) {}
 
-
-  location$!: Observable<ILocation[]>;
-
-  getLocation(): Observable<ILocation[]> {
-    if (!this.location$) {
-      this.location$ = this.httpClientService
-        .getLocation(this.authService.signInFactory).pipe(
-          shareReplay({bufferSize:1,refCount:true})
-        )
-    }
-    return this.location$;
+  getLocations(): Observable<ILocation[]> {
+    const location = [
+      {
+        id: '',
+        Factory: '',
+        Code: '',
+        Name: '',
+        Address: '',
+      },
+    ];
+    return this.httpClientService.get('locations', location);
   }
 }

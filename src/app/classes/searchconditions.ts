@@ -1,7 +1,9 @@
+import { IDepartment } from '../interfaces/department';
 import { IFacility } from '../interfaces/facility';
-import { IGenericMaster } from '../interfaces/generic-master';
 import { ILocation } from '../interfaces/location';
+import { IPriority } from '../interfaces/priority';
 import { IUser } from '../interfaces/user';
+import { IWorkstatus } from '../interfaces/workstatus';
 
 export class SearchConditions {
   constructor(
@@ -32,15 +34,22 @@ export class SearchConditions {
       From: number;
       To: number;
     } = { From: 0, To: 100 },
-    public allWorkStatuses: IGenericMaster[] = [],
-    public selectedWorkStatuses: IGenericMaster[] = [],
-    public allPriorities: IGenericMaster[] = [],
-    public allDepartments: IGenericMaster[] = [],
-    public selectedDepartments: IGenericMaster[] = [],
+    
+    public allWorkStatuses: IWorkstatus[] = [],
+    public selectedWorkStatuses: IWorkstatus[] = [],
+
+    public allPriorities: IPriority[] = [],
+    public selectedPriorities: IPriority[] = [],
+
+    public allDepartments: IDepartment[] = [],
+    public selectedDepartments: IDepartment[] = [],
+
     public allUsers: IUser[] = [],
     public selectedUsers: IUser[] = [],
+
     public allLocations: ILocation[] = [],
     public selectedLocations: ILocation[] = [],
+
     public allFacilities: IFacility[] = [],
     public selectedFacilities: IFacility[] = []
   ) {}

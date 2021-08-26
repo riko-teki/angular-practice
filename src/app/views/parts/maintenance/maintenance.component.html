@@ -18,12 +18,12 @@
                 </mat-menu>
             </mat-card-actions>
         </mat-card-header>
-        <mat-card-subtitle>作業状況:{{ this.maintenance.WorkStatus | genericMaster : "010" }}</mat-card-subtitle>
+        <mat-card-subtitle>作業状況:{{ this.maintenance.WorkStatusName }}</mat-card-subtitle>
         <mat-card-subtitle>作業期間: {{ this.maintenance.Date | date:"yyyy/MM/dd" }}</mat-card-subtitle>
         <mat-card-subtitle>ロケーション: {{ this.maintenance.LocationName }}</mat-card-subtitle>
         <mat-card-subtitle>設備: {{ this.maintenance.FacilityName }}</mat-card-subtitle>
         <mat-card-subtitle>担当者名: {{ this.maintenance.UserName }}</mat-card-subtitle>
-        <mat-card-subtitle>優先度: {{ this.maintenance.Priority | genericMaster : "006" }}</mat-card-subtitle>
-        <mat-card-subtitle>メンテナンスID:{{ this.maintenance.PlanID }}</mat-card-subtitle>
+        <mat-card-subtitle>優先度: {{ this.maintenance.PriorityName }}</mat-card-subtitle>
+        <mat-card-subtitle>メンテナンスID:{{ this.maintenance.id }}</mat-card-subtitle>
     </mat-card>
 </section>

@@ -18,13 +18,6 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LoginComponent implements OnInit {
 
   /**
-   * ログイン先会社名
-   *
-   * @memberof LoginComponent
-   */
-  companies = ['SD','FSD','TSD','ISD','DSD','ASD']
-
-  /**
    * ログインユーザー
    *
    * @type {AuthUser}

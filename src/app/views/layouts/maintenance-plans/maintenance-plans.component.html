@@ -1,0 +1,5 @@
+<h2 class="search-result">検索結果:{{ maintenances.length }}件</h2>
+
+<article class="grid-list">
+    <app-maintenance *ngFor="let maintenance of maintenances" [maintenance]="maintenance"></app-maintenance>
+</article>

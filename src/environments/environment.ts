@@ -4,23 +4,7 @@
 
 export const environment = {
   production: false,
-  Title: 'FacilityManager_Development',
-  authAPI: `http://10.10.0.28:11111/api/v1/test/userauth`,
-  userAPI: `http://10.10.0.28:11111/api/v1/test/users`,
-  genericMasterAPI: `http://10.10.0.28:11111/api/v1/test/genericmaster`,
-  locationAPI: `http://10.10.0.28:11111/api/v1/test/location`,
-  facilityAPI: `http://10.10.0.28:11111/api/v1/test/facility`,
-  materialStockAPI: `http://10.10.0.28:11111/api/v1/test/materialstock`,
-  maintenancePlansResultsAPI: `http://10.10.0.28:11111/api/v1/test/maintenance-plans-results`,
-  usedMaterialAPI: `http://10.10.0.28:11111/api/v1/test/used-material`,
-  usedMaterialSummaryAPI: `http://10.10.0.28:11111/api/v1/test/used-material-summary`,
-  registResultAPI: `http://10.10.0.28:11111/api/v1/test/regist-result`,
-  registResultSummaryAPI: `http://10.10.0.28:11111/api/v1/test/regist-result-summary`,
-  bulkRegistResultAPI: `http://10.10.0.28:11111/api/v1/test/bulk-regist-result`,
-  fileAPI: `http://10.10.0.28:11001/api/v1/test/files`,
-  fileSummaryAPI: `http://10.10.0.28:11001/api/v1/test/files-summary`,
-  manualNamesAPI: `http://10.10.0.28:11001/api/v1/test/manual-names`,
-  manualAPI: `http://10.10.0.28:11001/api/v1/test/manual`,
+  APIMockURL: 'mock-server/'
 };
 
 /*

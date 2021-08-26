@@ -19,12 +19,12 @@ export class MaintenanceComponent implements OnInit {
 
   NavigateDetail(): void {
     this.router.navigate(
-      [`${this.maintenance.PlanGroupID}/${this.maintenance.PlanID}`],
+      [`${this.maintenance.id}`],
       { relativeTo: this.activatedRoute });
   }
   NavigateRegistresult(): void {
     this.router.navigate(
-      [`${this.maintenance.PlanGroupID}/${this.maintenance.PlanID}/regist-result`],
+      [`${this.maintenance.id}/regist-result`],
       { relativeTo: this.activatedRoute });
   }
 }

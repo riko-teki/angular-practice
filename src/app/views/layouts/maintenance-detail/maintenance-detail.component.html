@@ -1,159 +1,101 @@
 <article class="grid">
-	<section class="grid-col">
-		<h1> {{ this.maintenance.Title }} </h1>
-		<h4> {{ this.maintenance.PlanGroupID }} : {{ this.maintenance.PlanID }} </h4>
-		<!-- 基本情報カード -->
-		<mat-card class="section">
-			<mat-card-title>基本情報</mat-card-title>
-			<mat-card-content>
-				<mat-list>
-					<mat-list-item>
-						<h1 matLine>作業状況</h1>
-						<div matLine>
-							<span *ngIf="this.maintenance.WorkStatus">
-								{{ this.maintenance.WorkStatus | genericMaster : "010" | async}}
-							</span>
-							<span *ngIf="!this.maintenance.WorkStatus">未着手</span>
-						</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>作業結果概要</h1>
-						<div matLine>{{ this.maintenance.WorkResultOverview }}</div>
-					</mat-list-item>
-				</mat-list>
-			</mat-card-content>
-		</mat-card>
+  <section class="grid-col">
+    <h1>{{ this.maintenance.Title }}</h1>
+    <h4>{{ this.maintenance.id }}</h4>
+    <!-- 基本情報カード -->
+    <mat-card class="section">
+      <mat-card-title>基本情報</mat-card-title>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <h1 matLine>作業状況</h1>
+            <div matLine>
+              {{ this.maintenance.WorkStatusName }}
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h1 matLine>作業結果概要</h1>
+            <div matLine>{{ this.maintenance.WorkResultOverview }}</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
 
-		<!-- 写真カード -->
-		<mat-card class="section">
-			<mat-card-title>写真</mat-card-title>
-			<mat-card-subtitle *ngIf="urls.length === 0">写真はありません</mat-card-subtitle>
-			<div class="image" *ngIf="urls.length != 0">
-				<img *ngFor="let image of urls" [src]="image" alt="" width="200px" height="200px" />
-			</div>
-		</mat-card>
+    <!-- 詳細カード -->
+    <mat-card class="section">
+      <mat-card-title>詳細</mat-card-title>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <h1 matLine>ロケーション</h1>
+            <div matLine>{{ this.maintenance.LocationName }}</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h1 matLine>設備</h1>
+            <div matLine>{{ this.maintenance.FacilityName }}</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h1 matLine>優先度</h1>
+            <div matLine>{{ this.maintenance.PriorityName }}</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h1 matLine>見込作業時間</h1>
+            <div matLine>{{ this.maintenance.ScheduledWorkTime }}時間</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h1 matLine>作業時間</h1>
+            <div matLine>{{ this.maintenance.WorkTime }}時間</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h1 matLine>作業完了日</h1>
+            <div matLine>
+              {{ this.maintenance.InspectionDatetime | date: "yyyy/MM/dd" }}
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h1 matLine>作業完了者</h1>
+            <div matLine>{{ this.maintenance.InspectionUserName }}</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
 
-		<!-- 詳細カード -->
-		<mat-card class="section">
-			<mat-card-title>詳細</mat-card-title>
-			<mat-card-content>
-				<mat-list>
-					<mat-list-item>
-						<h1 matLine>ロケーション</h1>
-						<div matLine>{{ this.maintenance.LocationName }}</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>設備</h1>
-						<div matLine>{{ this.maintenance.FacilityName }}</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>優先度</h1>
-						<div matLine>{{ this.maintenance.Priority | genericMaster : "006" | async}}
-						</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>保全種別</h1>
-						<div matLine>{{ this.maintenance.ConservationCateGory |
-							genericMaster : '009' | async }}</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>見込作業時間</h1>
-						<div matLine>{{ this.maintenance.ScheduledWorkTime }}時間</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>作業時間</h1>
-						<div matLine>{{ this.maintenance.WorkTime }}時間</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>作業完了日</h1>
-						<div matLine>
-							{{ this.maintenance.InspectionDatetime | date: "yyyy/MM/dd" }}
-						</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>作業完了者</h1>
-						<div matLine>{{ this.maintenance.ResultInsertUserID }}</div>
-					</mat-list-item>
-				</mat-list>
-			</mat-card-content>
-		</mat-card>
+    <!-- スケジュールカード -->
+    <mat-card class="section">
+      <mat-card-title>スケジュール</mat-card-title>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <h1 matLine>作業期間</h1>
+            <div matLine>{{ this.maintenance.Date | date: "yyyy/MM/dd" }}</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
 
-		<!-- スケジュールカード -->
-		<mat-card class="section">
-			<mat-card-title>スケジュール</mat-card-title>
-			<mat-card-content>
-				<mat-list>
-					<mat-list-item>
-						<h1 matLine>作業期間</h1>
-						<div matLine>{{ this.maintenance.Date | date:"yyyy/MM/dd" }}</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>計画期間</h1>
-						<div matLine><span>{{ this.maintenance.PeriodStartDate |
-								date:"yyyy/MM/dd" }}</span>
-							~
-							<span>{{ this.maintenance.PeriodEndDate | date:"yyyy/MM/dd"
-								}}</span>
-						</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>作業頻度</h1>
-						<div matLine>
-							<span>{{ this.maintenance.Frequency }}</span>
-							<span>回/</span>
-							<span>{{ this.maintenance.InspectionFrequency |
-								genericMaster : "004" | async }}</span>
-						</div>
-					</mat-list-item>
-				</mat-list>
-			</mat-card-content>
-		</mat-card>
-
-		<!-- 担当カード -->
-		<mat-card class="section">
-			<mat-card-title>担当</mat-card-title>
-			<mat-card-content>
-				<mat-list>
-					<mat-list-item>
-						<h1 matLine>担当者</h1>
-						<div matLine>{{ this.maintenance.UserName }}</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>担当部署</h1>
-						<div matLine>{{ this.maintenance.DepartmentName }}</div>
-					</mat-list-item>
-				</mat-list>
-			</mat-card-content>
-		</mat-card>
-
-		<!-- タイムスタンプカード -->
-		<mat-card class="section">
-			<mat-card-title>タイムスタンプ</mat-card-title>
-			<mat-card-content>
-				<mat-list>
-					<mat-list-item>
-						<h1 matLine>作成者</h1>
-						<div matLine>{{ this.maintenance.PlanInsertUserID }}</div>
-					</mat-list-item>
-					<mat-divider></mat-divider>
-					<mat-list-item>
-						<h1 matLine>更新日時</h1>
-						<div matLine>{{ this.maintenance.PlanUpdateDate }}</div>
-					</mat-list-item>
-				</mat-list>
-			</mat-card-content>
-		</mat-card>
-	</section>
+    <!-- 担当カード -->
+    <mat-card class="section">
+      <mat-card-title>担当</mat-card-title>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <h1 matLine>担当者</h1>
+            <div matLine>{{ this.maintenance.UserName }}</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <h1 matLine>担当部署</h1>
+            <div matLine>{{ this.maintenance.DepartmentName }}</div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </section>
 </article>

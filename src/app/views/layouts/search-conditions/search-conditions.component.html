@@ -1,59 +1,93 @@
-<section>
-    <div class="toggle">
-      <mat-slide-toggle 
-        [(ngModel)]="this.searchConditions.isChargePerson"
-        (change)="onSearchConditionsChanged()">
-          自分が担当しているメンテナンスを表示
-      </mat-slide-toggle>
+<div class="title-row">
+  <h1 class="title-row__title">メンテナンス計画一覧</h1>
+  <mat-expansion-panel class="title-row__search">
+    <mat-expansion-panel-header>
+      <mat-panel-title> メンテナンス計画表示条件 </mat-panel-title>
+      <mat-panel-description> 条件を変更できます </mat-panel-description>
+    </mat-expansion-panel-header>
+    <section>
+      <div class="toggle">
+        <mat-slide-toggle
+          [(ngModel)]="this.searchConditions.isChargePerson"
+          (change)="onSearchConditionsChanged()"
+        >
+          自分が担当しているメンテナンスのみ表示
+        </mat-slide-toggle>
+      </div>
 
-    </div>
+      <mat-form-field>
+        <mat-label>作業期間検索</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input
+            class="startdate"
+            matStartDate
+            [(ngModel)]="this.searchConditions.selectedDateRange.From"
+            placeholder="Start date"
+          />
+          <input
+            class="enddate"
+            matEndDate
+            [(ngModel)]="this.searchConditions.selectedDateRange.To"
+            placeholder="End date"
+          />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker
+          #picker
+          (closed)="onSearchConditionsChanged()"
+        ></mat-date-range-picker>
+      </mat-form-field>
+      <br />
 
-    <mat-form-field>
-      <mat-label>作業期間検索</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input class="startdate" matStartDate [(ngModel)]="this.searchConditions.selectedDateRange.From" placeholder="Start date">
-        <input class="enddate" matEndDate [(ngModel)]="this.searchConditions.selectedDateRange.To" placeholder="End date">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker (closed)="onSearchConditionsChanged()"></mat-date-range-picker>
-    </mat-form-field>
-    <br>
-
-    <mat-form-field>
-      <mat-label>優先順位最小値</mat-label>
-      <input matInput type="number" min="0" max="100" [(ngModel)]="this.searchConditions.selectedPriorityRange.From"
-      (ngModelChange)="onSearchConditionsChanged()">
-    </mat-form-field>
-    ~
-    <mat-form-field>
-      <mat-label>優先順位最大値</mat-label>
-      <input matInput type="number" min="0" max="100" [(ngModel)]="this.searchConditions.selectedPriorityRange.To"
-      (ngModelChange)="onSearchConditionsChanged()">
-    </mat-form-field>
+      <app-chips
+      class="chips"
+      title="優先順位"
+      [allValues]="this.searchConditions.allPriorities"
+      [(selectedValues)]="this.searchConditions.selectedPriorities"
+      (selectedValuesChange)="onSearchConditionsChanged()"
+    >
+    </app-chips>
     
-    <app-chips class="chips" title="作業状況" 
-      [allValues]="this.searchConditions.allWorkStatuses"
-      [(selectedValues)]="this.searchConditions.selectedWorkStatuses"
-      (selectedValuesChange)="onSearchConditionsChanged()">
-    </app-chips>
-    <app-chips class="chips" title="部署" 
-      [allValues]="this.searchConditions.allDepartments"
-      [(selectedValues)]="this.searchConditions.selectedDepartments"
-      (selectedValuesChange)="onSearchConditionsChanged()">
-    </app-chips>
-    <app-chips class="chips" title="担当者" 
-    [allValues]="this.searchConditions.allUsers"
-    [(selectedValues)]="this.searchConditions.selectedUsers"
-    (selectedValuesChange)="onSearchConditionsChanged()">
-  </app-chips>
-    <app-chips class="chips" title="ロケーション" 
-      [allValues]="this.searchConditions.allLocations"
-      [(selectedValues)]="this.searchConditions.selectedLocations"
-      (selectedValuesChange)="onSearchConditionsChanged()">
-    </app-chips>
-    <app-chips class="chips" title="設備" 
-      [allValues]="this.searchConditions.allFacilities"
-      [(selectedValues)]="this.searchConditions.selectedFacilities"
-      (selectedValuesChange)="onSearchConditionsChanged()">
-    </app-chips>
-</section>
+      <app-chips
+        class="chips"
+        title="作業状況"
+        [allValues]="this.searchConditions.allWorkStatuses"
+        [(selectedValues)]="this.searchConditions.selectedWorkStatuses"
+        (selectedValuesChange)="onSearchConditionsChanged()"
+      >
+      </app-chips>
+      <app-chips
+        class="chips"
+        title="部署"
+        [allValues]="this.searchConditions.allDepartments"
+        [(selectedValues)]="this.searchConditions.selectedDepartments"
+        (selectedValuesChange)="onSearchConditionsChanged()"
+      >
+      </app-chips>
+      <app-chips
+        class="chips"
+        title="担当者"
+        [allValues]="this.searchConditions.allUsers"
+        [(selectedValues)]="this.searchConditions.selectedUsers"
+        (selectedValuesChange)="onSearchConditionsChanged()"
+      >
+      </app-chips>
+      <app-chips
+        class="chips"
+        title="ロケーション"
+        [allValues]="this.searchConditions.allLocations"
+        [(selectedValues)]="this.searchConditions.selectedLocations"
+        (selectedValuesChange)="onSearchConditionsChanged()"
+      >
+      </app-chips>
+      <app-chips
+        class="chips"
+        title="設備"
+        [allValues]="this.searchConditions.allFacilities"
+        [(selectedValues)]="this.searchConditions.selectedFacilities"
+        (selectedValuesChange)="onSearchConditionsChanged()"
+      >
+      </app-chips>
+    </section>
+  </mat-expansion-panel>
+</div>

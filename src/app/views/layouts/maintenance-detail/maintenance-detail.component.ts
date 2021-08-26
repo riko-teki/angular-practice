@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { SafeResourceUrl } from '@angular/platform-browser';
-import { IMaintenanceFile } from 'src/app/interfaces/maintenance-file';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IMaintenancePlanResult } from 'src/app/interfaces/maintenance-plan-result';
-import { FileService } from 'src/app/services/file.service';
+import { MaintenancePlanResultService } from 'src/app/services/maintenance-plan-result.service';
 
 @Component({
   selector: 'app-maintenance-detail',
@@ -11,29 +10,23 @@ import { FileService } from 'src/app/services/file.service';
 })
 export class MaintenanceDetailComponent implements OnInit {
   //メンテナンス計画データ
-  @Input() maintenance!: IMaintenancePlanResult;
-  //画像表示用のBase64エンコードデータ
-  urls: SafeResourceUrl[] = [];
-  images: IMaintenanceFile[] = [];
+  maintenance!: IMaintenancePlanResult;
 
-  constructor(private fileService: FileService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private maintenancePlanResultService: MaintenancePlanResultService
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.maintenance.PlanGroupID +this.maintenance.PlanID)
-        // ファイルAPIから画像ファイルを取得してバインドプロパティへ設定
-        this.fileService
-        .getFiles(
-          'plan',
-          this.maintenance.PlanGroupID,
-          this.maintenance.PlanID
-        )
-        .subscribe((data) => {
-          data.forEach((image) => {
-            this.images.push({
-              FileName: image.FileName,
-              URL: 'data:image/jpeg;base64,' + image.URL,
-            });
-          });
-        });
+    //URLパスパラメータからIDを取得
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('maintenanceID');
+      if (id) {
+        //取得したIDでメンテナンス予実データを取得
+        this.maintenancePlanResultService
+          .getMaintenancePlanResultByID(id)
+          .subscribe((data) => (this.maintenance = data));
+      }
+    });
   }
 }
